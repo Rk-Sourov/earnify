@@ -126,14 +126,34 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
   }
 });
 
+
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  const button = e.submitter;
+  button.disabled = true;
+  button.textContent = "Please wait...";
+
   showMessage("Login হচ্ছে...");
 
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: document.getElementById("loginEmail").value.trim(),
-    password: document.getElementById("loginPassword").value
-  });
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: document.getElementById("loginEmail").value.trim(),
+      password: document.getElementById("loginPassword").value
+    });
+
+    if (error) throw error;
+
+    showMessage("Login সফল হয়েছে! User ID: " + data.user.id);
+
+  } catch (error) {
+    showMessage("Login Error: " + error.message, "#ff7777");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Login";
+  }
+});
+  
 
   if (error) {
     showMessage(error.message, "#ff7777");
