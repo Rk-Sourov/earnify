@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Earnify — Refer • Watch • Work • Earn</title>
+<meta name="description" content="Earnify demo platform for sponsored tasks, referrals and rewards.">
+<style>
+:root{--bg:#0b1220;--panel:#121d31;--muted:#aab7cc;--green:#25c78a;--line:#26354d}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(140deg,#0b1220,#101d32);color:#f4f7fb;font:16px system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1080px;margin:auto;padding:22px}.nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{font-size:25px;font-weight:800;letter-spacing:.3px}.brand span{color:var(--green)}
+.btn{border:0;border-radius:12px;padding:12px 18px;background:var(--green);color:#062319;font-weight:800;text-decoration:none;display:inline-block}
+.ghost{background:transparent;color:#f4f7fb;border:1px solid var(--line)}
+.hero{padding:66px 0 42px;display:grid;grid-template-columns:1.3fr .7fr;gap:28px;align-items:center}
+h1{font-size:clamp(36px,6vw,58px);line-height:1.05;margin:12px 0 18px}.sub{color:var(--muted);line-height:1.7;max-width:650px}
+.pill{display:inline-block;border:1px solid #245a4a;color:#7ee5bc;background:#102c27;padding:7px 12px;border-radius:30px;font-size:13px}
+.panel,.card{background:rgba(18,29,49,.92);border:1px solid var(--line);border-radius:20px;padding:22px}
+.balance{font-size:34px;font-weight:800;margin:8px 0}.muted{color:var(--muted);font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0 44px}
+.stat{background:#0d1728;border:1px solid var(--line);padding:15px;border-radius:14px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:18px 0 46px}
+.card h3{margin:8px 0}.ico{font-size:25px}.section{margin:35px 0}.section h2{font-size:28px}
+footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);font-size:13px}
+.notice{background:#332713;border:1px solid #725323;color:#ffe0a1;padding:14px 16px;border-radius:12px;line-height:1.55;margin:20px 0}
+a{color:#80e8bd}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:42px}.stats,.grid{grid-template-columns:1fr}.wrap{padding:18px}.nav{align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav"><div class="brand">Earn<span>ify</span></div><a class="btn ghost" href="#features">Explore</a></nav>
+  <main>
+    <section class="hero">
+      <div>
+        <span class="pill">REFER • WATCH • WORK • EARN</span>
+        <h1>Welcome to <span style="color:var(--green)">Earnify</span></h1>
+        <p class="sub">একটি সহজ earning platform-এর ডেমো—যেখানে রেফারেল, স্পনসরড টাস্ক এবং কাজের অগ্রগতি এক জায়গায় দেখা যাবে।</p>
+        <a class="btn" href="#features">Explore features</a>
+      </div>
+      <div class="panel">
+        <div class="muted">Demo wallet balance</div>
+        <div class="balance">৳ 0.00</div>
+        <div class="stats">
+          <div class="stat"><div class="muted">Tasks</div><b>0</b></div>
+          <div class="stat"><div class="muted">Referrals</div><b>0</b></div>
+          <div class="stat"><div class="muted">Rewards</div><b>৳0</b></div>
+        </div>
+        <div class="muted">এটি শুধু প্রিভিউ; কোনো বাস্তব ব্যালেন্স বা পেমেন্ট চালু নেই।</div>
+      </div>
+    </section>
+    <div class="notice"><b>ডেমো নোট:</b> এই প্রাথমিক পেজে এখনো লগইন, প্রকৃত আয়, ডিপোজিট/উত্তোলন, বিজ্ঞাপন ট্র্যাকিং বা পেমেন্ট প্রসেসিং যুক্ত হয়নি। যাচাইকৃত ব্যাকএন্ড ও নিরাপত্তা পরীক্ষা ছাড়া টাকা গ্রহণ করবেন না।</div>
+    <section id="features" class="section">
+      <h2>Platform features</h2>
+      <div class="grid">
+        <article class="card"><div class="ico">🤝</div><h3>Referral</h3><p class="muted">বাস্তব নতুন সদস্য ও যাচাইকৃত রেফারেলের হিসাব।</p></article>
+        <article class="card"><div class="ico">🧩</div><h3>Micro Tasks</h3><p class="muted">স্পনসরড কাজ জমা, যাচাই ও পুরস্কার ব্যবস্থাপনা।</p></article>
+        <article class="card"><div class="ico">📣</div><h3>Sponsored Ads</h3><p class="muted">নিজস্ব বিজ্ঞাপনদাতার ক্যাম্পেইন ও রিপোর্ট।</p></article>
+      </div>
+    </section>
+    <section class="section">
+      <h2>Transparent payments</h2>
+      <div class="card"><p class="muted">পরিকল্পিত পেমেন্ট পদ্ধতি: bKash, Nagad, Rocket এবং USDT (BEP20)। ন্যূনতম উত্তোলন ৳100 এবং নির্ধারিত উত্তোলন ফি 2%—বাস্তব পেমেন্ট ইন্টিগ্রেশন ও নীতিমালা যাচাই সম্পন্ন হওয়ার পরই চালু হবে।</p></div>
+    </section>
+  </main>
+  <footer>© <span id="year"></span> Earnify. Demo version. <a href="#features">Features</a></footer>
+</div>
+<script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+</body></html>
