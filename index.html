@@ -1,1 +1,238 @@
 
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Earnify - Refer • Watch • Work • Earn</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;background:#0b1020;color:white;
+  font-family:Arial,sans-serif;display:flex;
+  align-items:center;justify-content:center;padding:18px
+}
+.card{
+  width:100%;max-width:420px;background:#151d32;
+  padding:25px;border-radius:18px;box-shadow:0 10px 40px #0007
+}
+.logo{text-align:center;font-size:34px;font-weight:bold;color:#35d69a}
+.sub{text-align:center;color:#aab4ca;margin:8px 0 25px}
+h2{text-align:center}
+input{
+  width:100%;padding:14px;margin:7px 0;
+  border:1px solid #35415d;border-radius:9px;
+  background:#0d1528;color:white;font-size:15px
+}
+button{
+  width:100%;padding:14px;margin-top:12px;border:0;
+  border-radius:9px;background:#19bd83;color:#061b14;
+  font-weight:bold;font-size:16px;cursor:pointer
+}
+button:disabled{opacity:.5}
+.switch{text-align:center;margin-top:18px;color:#b8c3d8}
+.switch a{color:#35d69a;cursor:pointer}
+#message{text-align:center;margin-top:15px;font-size:14px;line-height:1.6;overflow-wrap:anywhere}
+.hidden{display:none!important}
+</style>
+</head>
+
+<body>
+<div class="card">
+
+  <div class="logo">Earnify</div>
+  <div class="sub">Refer • Watch • Work • Earn</div>
+
+  <div id="register">
+    <h2>Create Account</h2>
+    <form id="registerForm">
+      <input id="fullName" placeholder="Full Name" required>
+      <input id="mobile" placeholder="Mobile Number" type="tel" required>
+      <input id="regEmail" placeholder="Email Address" type="email" required>
+      <input id="regPassword" placeholder="Password (minimum 8 characters)" type="password" minlength="8" required>
+      <input id="referral" placeholder="Referral Code" maxlength="6" required>
+      <button type="submit" id="registerButton">Register Now</button>
+    </form>
+    <div class="switch">
+      Already have an account? <a id="showLogin">Login</a>
+    </div>
+  </div>
+
+  <div id="login" class="hidden">
+    <h2>Welcome Back</h2>
+    <form id="loginForm">
+      <input id="loginEmail" placeholder="Email Address" type="email" required>
+      <input id="loginPassword" placeholder="Password" type="password" required>
+      <button type="submit" id="loginButton">Login</button>
+    </form>
+    <div class="switch">
+      New to Earnify? <a id="showRegister">Create Account</a>
+    </div>
+  </div>
+
+  <div id="dashboard" class="hidden">
+    <h2>Welcome to Earnify!</h2>
+    <p id="userEmail"></p>
+    <p id="userId"></p>
+    <button id="logoutButton">Logout</button>
+  </div>
+
+  <div id="message" role="status"></div>
+</div>
+
+<script>
+"use strict";
+
+const SUPABASE_URL =
+"https://wgyprpeznitsikjyjnik.supabase.co";
+
+const SUPABASE_KEY =
+"তোমার বর্তমান আসল Publishable Key";
+
+const message = document.getElementById("message");
+
+function showMessage(text,color="#35d69a"){
+  message.style.color=color;
+  message.textContent=text;
+}
+
+function showPage(page){
+  ["register","login","dashboard"].forEach(id=>{
+    document.getElementById(id).classList.toggle("hidden",id!==page);
+  });
+  showMessage("");
+}
+
+let supabaseClient=null;
+
+try{
+  if(!window.supabase){
+    throw new Error("Supabase library load হয়নি।");
+  }
+
+  supabaseClient=window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+}catch(error){
+  showMessage(error.message,"#ff7777");
+}
+
+document.getElementById("showLogin").onclick=()=>{
+  showPage("login");
+};
+
+document.getElementById("showRegister").onclick=()=>{
+  showPage("register");
+};
+// Registration System
+document.getElementById("registerForm")
+.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  if (!supabaseClient) return;
+
+  const button = document.getElementById("registerButton");
+  button.disabled = true;
+  button.textContent = "Please wait...";
+  showMessage("Account তৈরি হচ্ছে...");
+
+  try {
+    const response = await fetch(
+      SUPABASE_URL + "/functions/v1/super-action",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_KEY
+        },
+        body: JSON.stringify({
+          full_name: document.getElementById("fullName").value.trim(),
+          mobile_number: document.getElementById("mobile").value.trim(),
+          email: document.getElementById("regEmail").value.trim(),
+          password: document.getElementById("regPassword").value,
+          referral_code: document.getElementById("referral").value.trim().toUpperCase()
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.error || "Registration failed");
+    }
+
+    showMessage(
+      "Registration সফল! Referral Code: " + result.referral_code
+    );
+
+    document.getElementById("registerForm").reset();
+
+  } catch (error) {
+    showMessage(error.message, "#ff7777");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Register Now";
+  }
+});
+
+
+// Login System
+document.getElementById("loginForm")
+.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  if (!supabaseClient) return;
+
+  const button = document.getElementById("loginButton");
+  button.disabled = true;
+  button.textContent = "Please wait...";
+
+  showMessage("Login হচ্ছে...");
+
+  try {
+    const { data, error } =
+      await supabaseClient.auth.signInWithPassword({
+        email: document.getElementById("loginEmail").value.trim(),
+        password: document.getElementById("loginPassword").value
+      });
+
+    if (error) throw error;
+
+    document.getElementById("userEmail").textContent =
+      "Email: " + data.user.email;
+
+    document.getElementById("userId").textContent =
+      "User ID: " + data.user.id;
+
+    showPage("dashboard");
+    showMessage("Login সফল হয়েছে!");
+
+  } catch (error) {
+    showMessage(error.message, "#ff7777");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Login";
+  }
+});
+
+
+// Logout System
+document.getElementById("logoutButton").onclick = async () => {
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    showMessage(error.message, "#ff7777");
+    return;
+  }
+
+  document.getElementById("loginForm").reset();
+  showPage("login");
+  showMessage("Logout সফল হয়েছে!");
+};
+  
+</script>
+</body>
+</html>
